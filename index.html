@@ -2,35 +2,38 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KPSS Önlisans Asistanı Pro v3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KPSS Önlisans Pro</title>
     <style>
         :root {
-            --primary-bg: #e0f2fe;
+            --primary-bg: #f0f9ff;
             --card-bg: #ffffff;
             --accent-blue: #0284c7;
             --accent-hover: #0369a1;
             --text-main: #0f172a;
             --text-muted: #64748b;
-            --border-color: #bae6fd;
+            --border-color: #e0f2fe;
             --success: #22c55e;
             --danger: #ef4444;
-            --shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.1), 0 4px 6px -4px rgba(2, 132, 199, 0.1);
+            --shadow-subtle: 0 4px 6px -1px rgba(2, 132, 199, 0.08), 0 2px 4px -2px rgba(2, 132, 199, 0.08);
+            --shadow-card: 0 10px 25px -5px rgba(2, 132, 199, 0.1), 0 8px 10px -6px rgba(2, 132, 199, 0.1);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--primary-bg);
             color: var(--text-main);
-            padding: 12px;
+            padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 70px) 12px;
             display: flex;
             justify-content: center;
+            user-select: none;
         }
 
         .app-container {
@@ -39,43 +42,61 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-            padding-bottom: 40px;
         }
 
+        /* Native App Header */
         header {
             background: linear-gradient(135deg, #0284c7, #0369a1);
             color: white;
-            padding: 20px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: var(--shadow);
+            padding: 24px 20px;
+            border-radius: 24px;
+            text-align: left;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
         }
 
         header h1 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
+            font-weight: 700;
             margin-bottom: 4px;
+            letter-spacing: -0.5px;
         }
 
         header p {
             font-size: 0.85rem;
             opacity: 0.9;
+            font-weight: 400;
         }
 
         .card {
             background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: var(--shadow);
+            border: 1px solid rgba(186, 230, 253, 0.6);
+            border-radius: 20px;
+            padding: 18px;
+            box-shadow: var(--shadow-subtle);
+            transition: transform 0.2s ease;
         }
 
         .card h2 {
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: var(--accent-blue);
             margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-weight: 600;
         }
 
         /* Geri Sayım */
@@ -87,25 +108,27 @@
         }
 
         .time-box {
-            background-color: #f0f9ff;
-            border: 1px solid var(--border-color);
-            padding: 8px 4px;
-            border-radius: 12px;
+            background-color: #f8fafc;
+            border: 1px solid #f1f5f9;
+            padding: 10px 4px;
+            border-radius: 14px;
         }
 
         .time-box span {
             display: block;
-            font-size: 1.1rem;
-            font-weight: bold;
+            font-size: 1.15rem;
+            font-weight: 700;
             color: var(--accent-blue);
         }
 
         .time-box label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
         }
 
-        /* Modüller */
+        /* Premium Modül Grid */
         .modules-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -113,36 +136,41 @@
         }
 
         .module-btn {
-            background: #f0f9ff;
-            border: 1px solid var(--border-color);
-            padding: 16px 12px;
-            border-radius: 14px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 18px 12px;
+            border-radius: 18px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             color: var(--text-main);
             font-weight: 600;
             font-size: 0.85rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            box-shadow: var(--shadow-subtle);
         }
 
         .module-btn span {
-            font-size: 1.4rem;
-        }
-
-        .module-btn:hover {
-            background: #e0f2fe;
-            border-color: var(--accent-blue);
+            font-size: 1.6rem;
+            background: #f0f9ff;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
         }
 
         .module-btn:active {
-            transform: scale(0.97);
+            transform: scale(0.95);
+            background: #f8fafc;
+            border-color: var(--accent-blue);
         }
 
-        /* Modal Ekranlar */
+        /* Modal Ekranlar (Native Sheet Efekti) */
         .modal {
             display: none;
             position: fixed;
@@ -150,108 +178,120 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
             justify-content: center;
-            align-items: center;
+            align-items: flex-end;
             z-index: 1000;
-            padding: 16px;
         }
 
         .modal-content {
             background: white;
             width: 100%;
-            max-width: 440px;
-            max-height: 90vh;
-            border-radius: 20px;
+            max-width: 480px;
+            max-height: 85vh;
+            border-radius: 24px 24px 0 0;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.3s ease;
+            box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+            animation: slideUpSheet 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        @keyframes slideUpSheet {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
 
         .modal-header {
-            background: var(--accent-blue);
-            color: white;
-            padding: 16px 20px;
+            background: white;
+            color: var(--text-main);
+            padding: 18px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 600;
+            font-weight: 700;
+            border-bottom: 1px solid #f1f5f9;
         }
 
         .close-btn {
-            background: none;
+            background: #f1f5f9;
             border: none;
-            color: white;
-            font-size: 1.5rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: var(--text-muted);
+            font-size: 1.1rem;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-body {
-            padding: 16px;
+            padding: 20px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             font-size: 0.9rem;
         }
 
-        /* Form elemanları ve butonlar */
+        /* Butonlar & Formlar */
         .btn {
             background-color: var(--accent-blue);
             color: white;
             border: none;
-            padding: 10px 16px;
-            border-radius: 10px;
+            padding: 12px 20px;
+            border-radius: 14px;
             cursor: pointer;
             font-weight: 600;
             text-align: center;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
         }
 
-        .btn:hover {
-            background-color: var(--accent-hover);
+        .btn:active {
+            transform: scale(0.97);
         }
 
         .btn-secondary {
-            background-color: #e2e8f0;
+            background-color: #f1f5f9;
             color: var(--text-main);
+            box-shadow: none;
         }
 
         input, select {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px 14px;
             border: 1px solid #cbd5e1;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 0.9rem;
             outline: none;
+            background: #f8fafc;
+            transition: border-color 0.2s;
         }
 
         input:focus, select:focus {
             border-color: var(--accent-blue);
+            background: white;
         }
 
         .chat-box {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            max-height: 220px;
+            gap: 10px;
+            max-height: 240px;
             overflow-y: auto;
-            padding: 8px;
+            padding: 12px;
             background: #f8fafc;
-            border-radius: 10px;
+            border-radius: 14px;
             border: 1px solid #e2e8f0;
         }
 
         .chat-msg {
-            padding: 8px 12px;
-            border-radius: 10px;
+            padding: 10px 14px;
+            border-radius: 14px;
             max-width: 85%;
             font-size: 0.85rem;
             line-height: 1.4;
@@ -261,13 +301,16 @@
             background: #e0f2fe;
             align-self: flex-end;
             color: #0369a1;
+            border-bottom-right-radius: 4px;
         }
 
         .chat-msg.bot {
             background: white;
             align-self: flex-start;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #e2e8f0;
             color: var(--text-main);
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .chat-input-area {
@@ -277,48 +320,48 @@
         }
 
         .badge-tag {
-            background: #e0f2fe;
+            background: #f0f9ff;
             color: var(--accent-blue);
-            padding: 4px 8px;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
             font-size: 0.75rem;
             font-weight: 600;
             display: inline-block;
-            margin-bottom: 6px;
+            border: 1px solid #bae6fd;
         }
 
         .timer-display {
-            font-size: 2.2rem;
-            font-weight: bold;
+            font-size: 2.5rem;
+            font-weight: 800;
             text-align: center;
             color: var(--accent-blue);
-            margin: 10px 0;
+            margin: 15px 0;
+            letter-spacing: -1px;
         }
 
-        /* 5 Şıklı ÖSYM Tarzı Soru Şıkları */
+        /* 5 Şıklı ÖSYM Soru Yapısı */
         .osym-options {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         .osym-option {
-            background: #f8fafc;
+            background: #ffffff;
             border: 1px solid #cbd5e1;
-            padding: 10px 14px;
-            border-radius: 10px;
+            padding: 12px 16px;
+            border-radius: 14px;
             cursor: pointer;
             font-size: 0.85rem;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .osym-option:hover {
-            background: #f0f9ff;
-            border-color: var(--accent-blue);
+        .osym-option:active {
+            transform: scale(0.98);
         }
 
         .osym-option.correct {
@@ -334,17 +377,55 @@
             color: #991b1b;
         }
 
-        /* Fotoğraf Yükleme Alanı */
         .photo-upload-box {
-            border: 2px dashed var(--border-color);
-            padding: 14px;
-            border-radius: 12px;
+            border: 2px dashed #bae6fd;
+            padding: 16px;
+            border-radius: 16px;
             text-align: center;
             background: #f0f9ff;
             cursor: pointer;
+            transition: background 0.2s;
         }
-        .photo-upload-box:hover {
+
+        .photo-upload-box:active {
             background: #e0f2fe;
+        }
+
+        /* Alt Navigasyon Barı (Native App Tab Bar) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 env(safe-area-inset-bottom, 10px) 0;
+            z-index: 999;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-item span {
+            font-size: 1.2rem;
+        }
+
+        .nav-item.active {
+            color: var(--accent-blue);
         }
     </style>
 </head>
@@ -353,7 +434,7 @@
     <div class="app-container">
         <!-- Başlık -->
         <header>
-            <h1>KPSS Önlisans Asistanı</h1>
+            <h1>KPSS Önlisans Pro</h1>
             <p>Sevgili öğrencim, hedefin P93 puanına emin adımlarla!</p>
         </header>
 
@@ -368,9 +449,9 @@
             </div>
         </div>
 
-        <!-- Araçlar & Modüller (Tıklanabilir) -->
+        <!-- Çalışma Araçları Grid -->
         <div class="card">
-            <h2>🚀 Çalışma Araçları</h2>
+            <h2>🚀 Hızlı Erişim</h2>
             <div class="modules-grid">
                 <div class="module-btn" onclick="openModal('aiModal')">
                     <span>🤖</span> Yapay Zeka Hoca
@@ -393,11 +474,11 @@
             </div>
         </div>
 
-        <!-- Günün Sorusu (5 Şıklı ÖSYM Formatı) -->
+        <!-- Günün Sorusu -->
         <div class="card">
             <h2>💡 Günün ÖSYM Tarzı Sorusu</h2>
             <span class="badge-tag">Geçmiş Soru (2022 Önlisans Sınavı)</span>
-            <div style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 8px;">
+            <div style="font-size: 0.9rem; line-height: 1.5; margin-top: 8px; margin-bottom: 8px;">
                 2017 Anayasa değişikliklerine göre, Türkiye Büyük Millet Meclisi'nin seçimleri yenileme kararı alabilmesi için üye tam sayısının kaçta kaçı gereklidir?
             </div>
             <div class="osym-options" id="dailyOptionsContainer">
@@ -410,19 +491,34 @@
         </div>
     </div>
 
+    <!-- Sabit Alt Mobil Navigasyon Barı -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <span>🏠</span> Ana Sayfa
+        </div>
+        <div class="nav-item" onclick="openModal('lessonsModal')">
+            <span>📚</span> Dersler
+        </div>
+        <div class="nav-item" onclick="openModal('aiModal')">
+            <span>🤖</span> AI Hoca
+        </div>
+        <div class="nav-item" onclick="openModal('puanModal')">
+            <span>📊</span> P93 Puan
+        </div>
+    </div>
+
     <!-- MODALLER -->
 
-    <!-- 1. Yapay Zeka Hoca Modal (Fotoğraf Yüklemeli & Çözüm Özellikli) -->
-    <div class="modal" id="aiModal">
+    <!-- 1. Yapay Zeka Hoca Modal -->
+    <div class="modal" id="aiModal" onclick="if(event.target === this) closeModal('aiModal')">
         <div class="modal-content">
             <div class="modal-header">
-                <span>🤖 Yapay Zeka Hoca (Fotoğraflı Soru Çözücü)</span>
+                <span>🤖 Yapay Zeka Hoca (Fotoğraflı Çözücü)</span>
                 <button class="close-btn" onclick="closeModal('aiModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <p style="font-size: 0.8rem; color: var(--text-muted);">Sorunun fotoğrafını yükle, yapay zeka hoca anında tarasın ve konuyu adım adım anlatsın!</p>
                 
-                <!-- Fotoğraf Yükleme Alanı -->
                 <div class="photo-upload-box" onclick="document.getElementById('questionFileInput').click()">
                     <span style="font-size: 1.8rem;">📷</span>
                     <div style="font-size: 0.85rem; font-weight: 600; color: var(--accent-blue); margin-top: 4px;">Soru Fotoğrafı Yükle / Çek</div>
@@ -431,7 +527,7 @@
                 <input type="file" id="questionFileInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
 
                 <div class="chat-box" id="chatBox">
-                    <div class="chat-msg bot">Sevgili öğrencim, merhaba! Çözemediğin sorunun fotoğrafını yukarıdan yükle veya soruyu yaz, hemen çözelim ve konusunu özetleyelim.</div>
+                    <div class="chat-msg bot">Sevgili öğrencim, merhaba! Çözemediğin sorunun fotoğrafını yukarıdan yükle veya soruyu yaz, hemen çözelim.</div>
                 </div>
                 <div class="chat-input-area">
                     <input type="text" id="chatInput" placeholder="Veya soruyu buraya yazın...">
@@ -442,7 +538,7 @@
     </div>
 
     <!-- 2. Dersler ve ÖSYM Tarzı Sorular Modal -->
-    <div class="modal" id="lessonsModal">
+    <div class="modal" id="lessonsModal" onclick="if(event.target === this) closeModal('lessonsModal')">
         <div class="modal-content">
             <div class="modal-header">
                 <span>📚 Dersler & Önlisans Soruları</span>
@@ -462,7 +558,7 @@
     </div>
 
     <!-- 3. 130 Dakika Deneme Sınavı Modal -->
-    <div class="modal" id="examModal">
+    <div class="modal" id="examModal" onclick="if(event.target === this) closeModal('examModal')">
         <div class="modal-content">
             <div class="modal-header">
                 <span>📝 ÖSYM Tarzı 130 Dk Deneme</span>
@@ -480,7 +576,7 @@
     </div>
 
     <!-- 4. Zayıf Nokta Avcısı Modal -->
-    <div class="modal" id="weaknessModal">
+    <div class="modal" id="weaknessModal" onclick="if(event.target === this) closeModal('weaknessModal')">
         <div class="modal-content">
             <div class="modal-header">
                 <span>🎯 Zayıf Nokta Avcısı (Akıllı Tekrar)</span>
@@ -489,7 +585,7 @@
             <div class="modal-body">
                 <span class="badge-tag">Yapay Zeka Analiz Raporu</span>
                 <p style="font-size: 0.85rem;">Geçmiş deneme ve soru çözüm verilerin taranmıştır. En çok hata yaptığın alt konular tespit edildi:</p>
-                <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 10px;">
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px;">
                     <strong>1. Tarih:</strong> İnkılap Tarihi Antlaşmaları (Doğruluk: %42)<br>
                     <strong>2. Matematik:</strong> Rutin Olmayan Problemler (Doğruluk: %35)
                 </div>
@@ -499,7 +595,7 @@
     </div>
 
     <!-- 5. P93 Puan Hesaplama Robotu Modal -->
-    <div class="modal" id="puanModal">
+    <div class="modal" id="puanModal" onclick="if(event.target === this) closeModal('puanModal')">
         <div class="modal-content">
             <div class="modal-header">
                 <span>📊 P93 Puan & Sıralama Robotu</span>
@@ -524,7 +620,7 @@
     </div>
 
     <!-- 6. Pomodoro Sayaç Modal -->
-    <div class="modal" id="pomodoroModal">
+    <div class="modal" id="pomodoroModal" onclick="if(event.target === this) closeModal('pomodoroModal')">
         <div class="modal-content">
             <div class="modal-header">
                 <span>⏱️ Kamp Modu & Pomodoro</span>
@@ -597,18 +693,15 @@
             const reader = new FileReader();
 
             reader.onload = function(e) {
-                // Sohbet alanına görseli ekle
-                chatBox.innerHTML += `<div class="chat-msg user">📷 [Soru Fotoğrafı Yüklendi] <br><img src="${e.target.result}" style="max-width:100%; border-radius:8px; margin-top:6px;"></div>`;
+                chatBox.innerHTML += `<div class="chat-msg user">📷 [Soru Fotoğrafı Yüklendi] <br><img src="${e.target.result}" style="max-width:100%; border-radius:10px; margin-top:6px;"></div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
 
-                // Yapay zeka hocanın çözüm simülasyonu
                 setTimeout(() => {
                     const aiResponse = `
                         <strong>Sevgili öğrencim, soruyu taradım! İşte Yapay Zeka Hoca Çözüm ve Konu Anlatımı:</strong><br><br>
-                        1. <b>Soru Analizi:</b> Bu soru ÖSYM'nin her dönem önlisans sınavında sormaktan hoşlandığı kritik bir kazanım testidir.<br>
-                        2. <b>Konu Özeti:</b> İlgili kavram, soru kökünde belirtilen yasal düzenlemeler ve tarihsel kronoloji çerçevesinde değerlendirilmelidir.<br>
-                        3. <b>Çözüm Adımı:</b> Verilen öncüller tek tek incelendiğinde doğru seçeneğe doğrudan ulaşıyoruz.<br>
-                        <i>Harika gidiyorsun sevgili öğrencim, başka bir soru takılırsa çekip atabilirsin!</i>
+                        1. <b>Soru Analizi:</b> Bu soru ÖSYM'nin önlisans sınavlarında sormaktan hoşlandığı kritik bir kazanımdır.<br>
+                        2. <b>Çözüm Adımı:</b> Verilen öncüller ve yasal düzenlemeler incelendiğinde doğru seçeneğe ulaşıyoruz.<br>
+                        <i>Harika gidiyorsun sevgili öğrencim!</i>
                     `;
                     chatBox.innerHTML += `<div class="chat-msg bot">${aiResponse}</div>`;
                     chatBox.scrollTop = chatBox.scrollHeight;
@@ -630,9 +723,9 @@
             chatBox.scrollTop = chatBox.scrollHeight;
 
             setTimeout(() => {
-                let botReply = "Sevgili öğrencim, harika bir soru! ÖSYM bu tarz 5 şıklı sorularda çeldiricilere dikkat etmeni ister. Adım adım çözelim: ...";
+                let botReply = "Sevgili öğrencim, harika bir soru! ÖSYM bu tarz 5 şıklı sorularda çeldiricilere dikkat etmeni ister. Adım adım çözelim...";
                 if (userText.toLowerCase().includes('tarih')) {
-                    botReply = "Sevgili öğrencim, Tarih dersinde özellikle inkılaplar ve antlaşmalar kronolojisi çok önemlidir. Takıldığın noktayı detaylıca anlatayım.";
+                    botReply = "Sevgili öğrencim, Tarih dersinde özellikle inkılaplar ve antlaşmalar kronolojisi çok önemlidir.";
                 } else if (userText.toLowerCase().includes('matematik') || userText.toLowerCase().includes('problem')) {
                     botReply = "Sevgili öğrencim, problem sorularında bilinmeyene 'x' demek yerine orantı kurmak işini hızlandırır.";
                 }
@@ -641,7 +734,7 @@
             }, 800);
         }
 
-        // Dersler & ÖSYM Tarzı Sorular İçeriği (5 Şıklı Tam Format)
+        // Dersler & ÖSYM Tarzı Sorular İçeriği
         function loadLesson(lessonType) {
             const body = document.getElementById('lessonsBody');
             let content = "";
@@ -650,7 +743,7 @@
                     <button class="btn btn-secondary" onclick="loadLesson('main')">← Derslere Dön</button>
                     <h3 style="color:var(--accent-blue); margin-top:8px;">Tarih - ÖSYM Tarzı Sorular</h3>
                     <span class="badge-tag">Geçmiş Soru (2022 Önlisans Sınavı)</span>
-                    <div style="font-size:0.85rem; background:#f8fafc; padding:10px; border-radius:10px; border:1px solid #e2e8f0; line-height:1.4;">
+                    <div style="font-size:0.85rem; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0; line-height:1.4;">
                         Aşağıdakilerden hangisi Kurtuluş Savaşı'nda Batı Cephesi'nde yapılan muharebelerden biri değildir?
                         <div class="osym-options" id="tarihOptContainer">
                             <div class="osym-option" onclick="checkOsymAnswer(this, false, 'tarihOptContainer')"><b>A)</b> I. İnönü Muharebesi</div>
@@ -666,7 +759,7 @@
                     <button class="btn btn-secondary" onclick="loadLesson('main')">← Derslere Dön</button>
                     <h3 style="color:var(--accent-blue); margin-top:8px;">Vatandaşlık - ÖSYM Soruları</h3>
                     <span class="badge-tag">Geçmiş Soru (2020 Önlisans Sınavı)</span>
-                    <div style="font-size:0.85rem; background:#f8fafc; padding:10px; border-radius:10px; border:1px solid #e2e8f0; line-height:1.4;">
+                    <div style="font-size:0.85rem; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0; line-height:1.4;">
                         1982 Anayasası'na göre aşağıdakilerden hangisi yüksek mahkemelerden biri değildir?
                         <div class="osym-options" id="vatOptContainer">
                             <div class="osym-option" onclick="checkOsymAnswer(this, false, 'vatOptContainer')"><b>A)</b> Anayasa Mahkemesi</div>
@@ -685,26 +778,24 @@
                         <button class="btn btn-secondary" onclick="loadLesson('cografya')">🌍 Coğrafya (Türkiye Beşeri ve Fiziki)</button>
                         <button class="btn btn-secondary" onclick="loadLesson('vatandaslik')">⚖️ Vatandaşlık (Anayasa & İdare)</button>
                         <button class="btn btn-secondary" onclick="loadLesson('turkce')">📖 Türkçe (Paragraf & Dil Bilgisi)</button>
-                        <button class="btn btn-secondary" onclick="loadLesson('matematik')">📐 Matematik & Sayısal Mantık</button>
+                        <button class="btn btn-secondary" onclick="loadLesson('matematik')`>📐 Matematik & Sayısal Mantık</button>
                     </div>
                 `;
             }
             body.innerHTML = content;
         }
 
-        // 130 Dk Deneme Başlatma
         function startExamSession() {
             document.getElementById('examBody').innerHTML = `
                 <div style="text-align:center; padding:10px;">
                     <h3 style="color:var(--success);">Deneme Oturumu Başlatıldı!</h3>
-                    <p style="font-size:0.85rem; margin:10px 0;">Süre: 130 Dakika (Kronometre çalışıyor)</p>
+                    <p style="font-size:0.85rem; margin:10px 0;">Süre: 130 Dakika (Kronometre aktif)</p>
                     <div style="font-size:2rem; font-weight:bold; color:var(--accent-blue);" id="examTimer">130:00</div>
                     <button class="btn btn-secondary" style="margin-top:10px;" onclick="closeModal('examModal')">Denemeden Çık</button>
                 </div>
             `;
         }
 
-        // P93 Puan Hesaplama (Önlisans Özel Katsayı Simülasyonu)
         function calculateP93() {
             const gyD = parseFloat(document.getElementById('gyD').value) || 0;
             const gyY = parseFloat(document.getElementById('gyY').value) || 0;
@@ -723,7 +814,847 @@
             `;
         }
 
-        // Pomodoro Sayaç Mantığı
+        let pomodoroInterval;
+        let pomodoroTime = 1500;
+        function startPomodoro() {
+            if (pomodoroInterval) return;
+            pomodoroInterval = setInterval(() => {
+                if (pomodoroTime > 0) {
+                    pomodoroTime--;
+                    let m = Math.floor(pomodoroTime / 60);
+                    let s = pomodoroTime % 60;
+                    document.getElementById('pomodoroTimer').innerText = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                } else {
+                    clearInterval(pomodoroInterval);
+                    alert("Tebrikler sevgili öğrencim, Pomodoro seansını tamamladın!");
+                }
+            }, 1000);
+        }
+        function resetPomodoro() {
+            clearInterval(pomodoroInterval);
+            pomodoroInterval = null;
+            pomodoroTime = 1500;
+            document.getElementById('pomodoroTimer').innerText = "25:00";
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KPSS Önlisans Pro</title>
+    <style>
+        :root {
+            --primary-bg: #f0f9ff;
+            --card-bg: #ffffff;
+            --accent-blue: #0284c7;
+            --accent-hover: #0369a1;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e0f2fe;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --shadow-subtle: 0 4px 6px -1px rgba(2, 132, 199, 0.08), 0 2px 4px -2px rgba(2, 132, 199, 0.08);
+            --shadow-card: 0 10px 25px -5px rgba(2, 132, 199, 0.1), 0 8px 10px -6px rgba(2, 132, 199, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 70px) 12px;
+            display: flex;
+            justify-content: center;
+            user-select: none;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Native App Header */
+        header {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+            padding: 24px 20px;
+            border-radius: 24px;
+            text-align: left;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(186, 230, 253, 0.6);
+            border-radius: 20px;
+            padding: 18px;
+            box-shadow: var(--shadow-subtle);
+            transition: transform 0.2s ease;
+        }
+
+        .card h2 {
+            font-size: 1rem;
+            color: var(--accent-blue);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        /* Geri Sayım */
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            text-align: center;
+        }
+
+        .time-box {
+            background-color: #f8fafc;
+            border: 1px solid #f1f5f9;
+            padding: 10px 4px;
+            border-radius: 14px;
+        }
+
+        .time-box span {
+            display: block;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .time-box label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        /* Premium Modül Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .module-btn {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 18px 12px;
+            border-radius: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .module-btn span {
+            font-size: 1.6rem;
+            background: #f0f9ff;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+        }
+
+        .module-btn:active {
+            transform: scale(0.95);
+            background: #f8fafc;
+            border-color: var(--accent-blue);
+        }
+
+        /* Modal Ekranlar (Native Sheet Efekti) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            max-height: 85vh;
+            border-radius: 24px 24px 0 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+            animation: slideUpSheet 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUpSheet {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-header {
+            background: white;
+            color: var(--text-main);
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .close-btn {
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            font-size: 0.9rem;
+        }
+
+        /* Butonlar & Formlar */
+        .btn {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-secondary {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            box-shadow: none;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            outline: none;
+            background: #f8fafc;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent-blue);
+            background: white;
+        }
+
+        .chat-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 240px;
+            overflow-y: auto;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .chat-msg {
+            padding: 10px 14px;
+            border-radius: 14px;
+            max-width: 85%;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .chat-msg.user {
+            background: #e0f2fe;
+            align-self: flex-end;
+            color: #0369a1;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-msg.bot {
+            background: white;
+            align-self: flex-start;
+            border: 1px solid #e2e8f0;
+            color: var(--text-main);
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .badge-tag {
+            background: #f0f9ff;
+            color: var(--accent-blue);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            border: 1px solid #bae6fd;
+        }
+
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--accent-blue);
+            margin: 15px 0;
+            letter-spacing: -1px;
+        }
+
+        /* 5 Şıklı ÖSYM Soru Yapısı */
+        .osym-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .osym-option {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 12px 16px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .osym-option:active {
+            transform: scale(0.98);
+        }
+
+        .osym-option.correct {
+            background: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #166534;
+            font-weight: 600;
+        }
+
+        .osym-option.incorrect {
+            background: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b;
+        }
+
+        .photo-upload-box {
+            border: 2px dashed #bae6fd;
+            padding: 16px;
+            border-radius: 16px;
+            text-align: center;
+            background: #f0f9ff;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .photo-upload-box:active {
+            background: #e0f2fe;
+        }
+
+        /* Alt Navigasyon Barı (Native App Tab Bar) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 env(safe-area-inset-bottom, 10px) 0;
+            z-index: 999;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-item span {
+            font-size: 1.2rem;
+        }
+
+        .nav-item.active {
+            color: var(--accent-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Başlık -->
+        <header>
+            <h1>KPSS Önlisans Pro</h1>
+            <p>Sevgili öğrencim, hedefin P93 puanına emin adımlarla!</p>
+        </header>
+
+        <!-- Sayaç Kartı -->
+        <div class="card">
+            <h2>⏳ Sınava Kalan Süre</h2>
+            <div class="countdown-grid" id="countdown">
+                <div class="time-box"><span id="days">--</span><label>Gün</label></div>
+                <div class="time-box"><span id="hours">--</span><label>Saat</label></div>
+                <div class="time-box"><span id="mins">--</span><label>Dakika</label></div>
+                <div class="time-box"><span id="secs">--</span><label>Saniye</label></div>
+            </div>
+        </div>
+
+        <!-- Çalışma Araçları Grid -->
+        <div class="card">
+            <h2>🚀 Hızlı Erişim</h2>
+            <div class="modules-grid">
+                <div class="module-btn" onclick="openModal('aiModal')">
+                    <span>🤖</span> Yapay Zeka Hoca
+                </div>
+                <div class="module-btn" onclick="openModal('lessonsModal')">
+                    <span>📚</span> Dersler & Sorular
+                </div>
+                <div class="module-btn" onclick="openModal('examModal')">
+                    <span>📝</span> 130 Dk Deneme
+                </div>
+                <div class="module-btn" onclick="openModal('weaknessModal')">
+                    <span>🎯</span> Zayıf Nokta Avcısı
+                </div>
+                <div class="module-btn" onclick="openModal('puanModal')">
+                    <span>📊</span> P93 Hesapla
+                </div>
+                <div class="module-btn" onclick="openModal('pomodoroModal')">
+                    <span>⏱️</span> Kamp & Pomodoro
+                </div>
+            </div>
+        </div>
+
+        <!-- Günün Sorusu -->
+        <div class="card">
+            <h2>💡 Günün ÖSYM Tarzı Sorusu</h2>
+            <span class="badge-tag">Geçmiş Soru (2022 Önlisans Sınavı)</span>
+            <div style="font-size: 0.9rem; line-height: 1.5; margin-top: 8px; margin-bottom: 8px;">
+                2017 Anayasa değişikliklerine göre, Türkiye Büyük Millet Meclisi'nin seçimleri yenileme kararı alabilmesi için üye tam sayısının kaçta kaçı gereklidir?
+            </div>
+            <div class="osym-options" id="dailyOptionsContainer">
+                <div class="osym-option" onclick="checkOsymAnswer(this, false, 'dailyOptionsContainer')"><b>A)</b> Salt çoğunluk (301 milletvekili)</div>
+                <div class="osym-option" onclick="checkOsymAnswer(this, true, 'dailyOptionsContainer')"><b>B)</b> Beşte üç (360 milletvekili)</div>
+                <div class="osym-option" onclick="checkOsymAnswer(this, false, 'dailyOptionsContainer')"><b>C)</b> Üçte iki (400 milletvekili)</div>
+                <div class="osym-option" onclick="checkOsymAnswer(this, false, 'dailyOptionsContainer')"><b>D)</b> Dörtte üç (450 milletvekili)</div>
+                <div class="osym-option" onclick="checkOsymAnswer(this, false, 'dailyOptionsContainer')"><b>E)</b> Üye tam sayısının oy birliği</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sabit Alt Mobil Navigasyon Barı -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <span>🏠</span> Ana Sayfa
+        </div>
+        <div class="nav-item" onclick="openModal('lessonsModal')">
+            <span>📚</span> Dersler
+        </div>
+        <div class="nav-item" onclick="openModal('aiModal')">
+            <span>🤖</span> AI Hoca
+        </div>
+        <div class="nav-item" onclick="openModal('puanModal')">
+            <span>📊</span> P93 Puan
+        </div>
+    </div>
+
+    <!-- MODALLER -->
+
+    <!-- 1. Yapay Zeka Hoca Modal -->
+    <div class="modal" id="aiModal" onclick="if(event.target === this) closeModal('aiModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>🤖 Yapay Zeka Hoca (Fotoğraflı Çözücü)</span>
+                <button class="close-btn" onclick="closeModal('aiModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Sorunun fotoğrafını yükle, yapay zeka hoca anında tarasın ve konuyu adım adım anlatsın!</p>
+                
+                <div class="photo-upload-box" onclick="document.getElementById('questionFileInput').click()">
+                    <span style="font-size: 1.8rem;">📷</span>
+                    <div style="font-size: 0.85rem; font-weight: 600; color: var(--accent-blue); margin-top: 4px;">Soru Fotoğrafı Yükle / Çek</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Galeriden seç veya kamerayı aç</div>
+                </div>
+                <input type="file" id="questionFileInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+
+                <div class="chat-box" id="chatBox">
+                    <div class="chat-msg bot">Sevgili öğrencim, merhaba! Çözemediğin sorunun fotoğrafını yukarıdan yükle veya soruyu yaz, hemen çözelim.</div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chatInput" placeholder="Veya soruyu buraya yazın...">
+                    <button class="btn" onclick="sendAiMessage()">Gönder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Dersler ve ÖSYM Tarzı Sorular Modal -->
+    <div class="modal" id="lessonsModal" onclick="if(event.target === this) closeModal('lessonsModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>📚 Dersler & Önlisans Soruları</span>
+                <button class="close-btn" onclick="closeModal('lessonsModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="lessonsBody">
+                <p>Çalışmak istediğin dersi seç:</p>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <button class="btn btn-secondary" onclick="loadLesson('tarih')">🏛️ Tarih (İnkılap Tarihi & Osmanlı)</button>
+                    <button class="btn btn-secondary" onclick="loadLesson('cografya')">🌍 Coğrafya (Türkiye Beşeri ve Fiziki)</button>
+                    <button class="btn btn-secondary" onclick="loadLesson('vatandaslik')">⚖️ Vatandaşlık (Anayasa & İdare)</button>
+                    <button class="btn btn-secondary" onclick="loadLesson('turkce')">📖 Türkçe (Paragraf & Dil Bilgisi)</button>
+                    <button class="btn btn-secondary" onclick="loadLesson('matematik')">📐 Matematik & Sayısal Mantık</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 130 Dakika Deneme Sınavı Modal -->
+    <div class="modal" id="examModal" onclick="if(event.target === this) closeModal('examModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>📝 ÖSYM Tarzı 130 Dk Deneme</span>
+                <button class="close-btn" onclick="closeModal('examModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="examBody">
+                <div style="text-align: center; padding: 10px;">
+                    <span style="font-size: 2.5rem;">⏱️</span>
+                    <h3 style="color: var(--accent-blue); margin: 10px 0;">Genel Yetenek - Genel Kültür</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">Gerçek Önlisans sınav formatında 60 GY + 60 GK = 120 Soru, toplam 130 dakika süreli simülasyon.</p>
+                    <button class="btn" onclick="startExamSession()">Denemeyi Başlat (130 Dk)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Zayıf Nokta Avcısı Modal -->
+    <div class="modal" id="weaknessModal" onclick="if(event.target === this) closeModal('weaknessModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>🎯 Zayıf Nokta Avcısı (Akıllı Tekrar)</span>
+                <button class="close-btn" onclick="closeModal('weaknessModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <span class="badge-tag">Yapay Zeka Analiz Raporu</span>
+                <p style="font-size: 0.85rem;">Geçmiş deneme ve soru çözüm verilerin taranmıştır. En çok hata yaptığın alt konular tespit edildi:</p>
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px;">
+                    <strong>1. Tarih:</strong> İnkılap Tarihi Antlaşmaları (Doğruluk: %42)<br>
+                    <strong>2. Matematik:</strong> Rutin Olmayan Problemler (Doğruluk: %35)
+                </div>
+                <button class="btn" onclick="alert('Sevgili öğrencim, eksik kapatma testiniz oluşturuluyor!')">Eksik Kapatma Testini Çöz</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. P93 Puan Hesaplama Robotu Modal -->
+    <div class="modal" id="puanModal" onclick="if(event.target === this) closeModal('puanModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>📊 P93 Puan & Sıralama Robotu</span>
+                <button class="close-btn" onclick="closeModal('puanModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.85rem;">Önlisans P93 puan türü için doğru ve yanlış sayılarınızı giriniz:</p>
+                <label>Genel Yetenek Doğru / Yanlış:</label>
+                <div style="display: flex; gap: 8px;">
+                    <input type="number" id="gyD" placeholder="Doğru" value="45">
+                    <input type="number" id="gyY" placeholder="Yanlış" value="5">
+                </div>
+                <label style="margin-top: 6px;">Genel Kültür Doğru / Yanlış:</label>
+                <div style="display: flex; gap: 8px;">
+                    <input type="number" id="gkD" placeholder="Doğru" value="40">
+                    <input type="number" id="gkY" placeholder="Yanlış" value="10">
+                </div>
+                <button class="btn" style="margin-top: 8px;" onclick="calculateP93()">P93 Puanımı Hesapla</button>
+                <div id="puanResult" style="margin-top: 10px; font-weight: bold; text-align: center; color: var(--accent-blue);"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Pomodoro Sayaç Modal -->
+    <div class="modal" id="pomodoroModal" onclick="if(event.target === this) closeModal('pomodoroModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>⏱️ Kamp Modu & Pomodoro</span>
+                <button class="close-btn" onclick="closeModal('pomodoroModal')">&times;</button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Uygulamadan çıkmadan odaklan, mola sürelerini yönet!</p>
+                <div class="timer-display" id="pomodoroTimer">25:00</div>
+                <div style="display: flex; gap: 8px; justify-content: center;">
+                    <button class="btn" onclick="startPomodoro()">Başlat</button>
+                    <button class="btn btn-secondary" onclick="resetPomodoro()">Sıfırla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Geri Sayım (2026 KPSS Önlisans Örnek Tarih)
+        const examDate = new Date("September 1, 2026 10:15:00").getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = examDate - now;
+            if (distance > 0) {
+                document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+                document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById("mins").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById("secs").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Modal Yönetimi
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // 5 Şıklı ÖSYM Soru İşaretleme ve Kontrol Mantığı
+        function checkOsymAnswer(element, isCorrect, containerId) {
+            const container = document.getElementById(containerId);
+            const options = container.getElementsByClassName('osym-option');
+            
+            for (let opt of options) {
+                opt.style.pointerEvents = 'none';
+            }
+
+            if (isCorrect) {
+                element.classList.add('correct');
+                alert("Tebrikler sevgili öğrencim, doğru cevap! Harika ilerliyorsun.");
+            } else {
+                element.classList.add('incorrect');
+                for (let opt of options) {
+                    if (opt.onclick.toString().includes('true')) {
+                        opt.classList.add('correct');
+                    }
+                }
+                alert("Yanlış cevap sevgili öğrencim. Doğru seçenek işaretlendi, açıklamayı inceleyebilirsin.");
+            }
+        }
+
+        // Fotoğraf Yükleme ve Yapay Zeka Hoca Çözüm Simülasyonu
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const chatBox = document.getElementById('chatBox');
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                chatBox.innerHTML += `<div class="chat-msg user">📷 [Soru Fotoğrafı Yüklendi] <br><img src="${e.target.result}" style="max-width:100%; border-radius:10px; margin-top:6px;"></div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                setTimeout(() => {
+                    const aiResponse = `
+                        <strong>Sevgili öğrencim, soruyu taradım! İşte Yapay Zeka Hoca Çözüm ve Konu Anlatımı:</strong><br><br>
+                        1. <b>Soru Analizi:</b> Bu soru ÖSYM'nin önlisans sınavlarında sormaktan hoşlandığı kritik bir kazanımdır.<br>
+                        2. <b>Çözüm Adımı:</b> Verilen öncüller ve yasal düzenlemeler incelendiğinde doğru seçeneğe ulaşıyoruz.<br>
+                        <i>Harika gidiyorsun sevgili öğrencim!</i>
+                    `;
+                    chatBox.innerHTML += `<div class="chat-msg bot">${aiResponse}</div>`;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 1200);
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        // Yapay Zeka Hoca Metin Sohbet Simülasyonu
+        function sendAiMessage() {
+            const input = document.getElementById('chatInput');
+            const chatBox = document.getElementById('chatBox');
+            if (!input.value.trim()) return;
+
+            const userText = input.value;
+            chatBox.innerHTML += `<div class="chat-msg user">${userText}</div>`;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                let botReply = "Sevgili öğrencim, harika bir soru! ÖSYM bu tarz 5 şıklı sorularda çeldiricilere dikkat etmeni ister. Adım adım çözelim...";
+                if (userText.toLowerCase().includes('tarih')) {
+                    botReply = "Sevgili öğrencim, Tarih dersinde özellikle inkılaplar ve antlaşmalar kronolojisi çok önemlidir.";
+                } else if (userText.toLowerCase().includes('matematik') || userText.toLowerCase().includes('problem')) {
+                    botReply = "Sevgili öğrencim, problem sorularında bilinmeyene 'x' demek yerine orantı kurmak işini hızlandırır.";
+                }
+                chatBox.innerHTML += `<div class="chat-msg bot">${botReply}</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 800);
+        }
+
+        // Dersler & ÖSYM Tarzı Sorular İçeriği
+        function loadLesson(lessonType) {
+            const body = document.getElementById('lessonsBody');
+            let content = "";
+            if (lessonType === 'tarih') {
+                content = `
+                    <button class="btn btn-secondary" onclick="loadLesson('main')">← Derslere Dön</button>
+                    <h3 style="color:var(--accent-blue); margin-top:8px;">Tarih - ÖSYM Tarzı Sorular</h3>
+                    <span class="badge-tag">Geçmiş Soru (2022 Önlisans Sınavı)</span>
+                    <div style="font-size:0.85rem; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0; line-height:1.4;">
+                        Aşağıdakilerden hangisi Kurtuluş Savaşı'nda Batı Cephesi'nde yapılan muharebelerden biri değildir?
+                        <div class="osym-options" id="tarihOptContainer">
+                            <div class="osym-option" onclick="checkOsymAnswer(this, false, 'tarihOptContainer')"><b>A)</b> I. İnönü Muharebesi</div>
+                            <div class="osym-option" onclick="checkOsymAnswer(this, true, 'tarihOptContainer')"><b>B)</b> Pasinler Savaşı</div>
+                            <div class="osym-option" onclick="checkOsymAnswer(this, false, 'tarihOptContainer')"><b>C)</b> Sakarya Meydan Muharebesi</div>
+                            <div class="osym-option" onclick="checkOsymAnswer(this, false, 'tarihOptContainer')"><b>D)</b> Dumlupınar Meydan Muharebesi</div>
+                            <div class="osym-option" onclick="checkOsymAnswer(this, false, 'tarihOptContainer')"><b>E)</b> II. İnönü Muharebesi</div>
+                        </div>
+                    </div>
+                `;
+            } else if (lessonType === 'vatandaslik') {
+                content = `
+                    <button class="btn btn-secondary" onclick="loadLesson('main')">← Derslere Dön</button>
+                    <h3 style="color:var(--accent-blue); margin-top:8px;">Vatandaşlık - ÖSYM Soruları</h3>
+                    <span class="badge-tag">Geçmiş Soru (2020 Önlisans Sınavı)</span>
+                    <div style="font-size:0.85rem; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0; line-height:1.4;">
+                        1982 Anayasası'na göre aşağıdakilerden hangisi yüksek mahkemelerden biri değildir?
+                        <div class="osym-options" id="vatOptContainer">
+                            <div class="osym-option" onclick="checkOsymAnswer(this, false, 'vatOptContainer')"><b>A)</b> Anayasa Mahkemesi</div>
+                            <div class="osym-option" onclick="checkOsymAnswer(this, true, 'vatOptContainer')"><b>B)</b> Sayıştay</div>
+                            <div class="osym-option" onclick="checkOsymAnswer(this, false, 'vatOptContainer')"><b>C)</b> Danıştay</div>
+                            <div class="osym-option" onclick="checkOsymAnswer(this, false, 'vatOptContainer')"><b>D)</b> Yargıtay</div>
+                            <div class="osym-option" onclick="checkOsymAnswer(this, false, 'vatOptContainer')"><b>E)</b> Uyuşmazlık Mahkemesi</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                content = `
+                    <p>Çalışmak istediğin dersi seç:</p>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <button class="btn btn-secondary" onclick="loadLesson('tarih')">🏛️ Tarih (İnkılap Tarihi & Osmanlı)</button>
+                        <button class="btn btn-secondary" onclick="loadLesson('cografya')">🌍 Coğrafya (Türkiye Beşeri ve Fiziki)</button>
+                        <button class="btn btn-secondary" onclick="loadLesson('vatandaslik')">⚖️ Vatandaşlık (Anayasa & İdare)</button>
+                        <button class="btn btn-secondary" onclick="loadLesson('turkce')">📖 Türkçe (Paragraf & Dil Bilgisi)</button>
+                        <button class="btn btn-secondary" onclick="loadLesson('matematik')`>📐 Matematik & Sayısal Mantık</button>
+                    </div>
+                `;
+            }
+            body.innerHTML = content;
+        }
+
+        function startExamSession() {
+            document.getElementById('examBody').innerHTML = `
+                <div style="text-align:center; padding:10px;">
+                    <h3 style="color:var(--success);">Deneme Oturumu Başlatıldı!</h3>
+                    <p style="font-size:0.85rem; margin:10px 0;">Süre: 130 Dakika (Kronometre aktif)</p>
+                    <div style="font-size:2rem; font-weight:bold; color:var(--accent-blue);" id="examTimer">130:00</div>
+                    <button class="btn btn-secondary" style="margin-top:10px;" onclick="closeModal('examModal')">Denemeden Çık</button>
+                </div>
+            `;
+        }
+
+        function calculateP93() {
+            const gyD = parseFloat(document.getElementById('gyD').value) || 0;
+            const gyY = parseFloat(document.getElementById('gyY').value) || 0;
+            const gkD = parseFloat(document.getElementById('gkD').value) || 0;
+            const gkY = parseFloat(document.getElementById('gkY').value) || 0;
+
+            const gyNet = gyD - (gyY * 0.25);
+            const gkNet = gkD - (gkY * 0.25);
+            
+            const p93 = 50 + (gyNet * 0.5) + (gkNet * 0.5);
+            const siralama = Math.max(1250, Math.floor(150000 - (p93 * 1400)));
+
+            document.getElementById('puanResult').innerHTML = `
+                Tahmini P93 Puanınız: ${p93.toFixed(3)}<br>
+                <span style="font-size:0.8rem; color:var(--text-muted);">Tahmini Türkiye Sıralaması: ~${siralama}</span>
+            `;
+        }
+
         let pomodoroInterval;
         let pomodoroTime = 1500;
         function startPomodoro() {
